@@ -1,4 +1,4 @@
-package com.vaadin.tutorial.crm;
+package it.arsinfo.gc;
 
 import com.vaadin.flow.theme.AbstractTheme;
 import com.vaadin.testbench.ScreenshotOnFailureRule;

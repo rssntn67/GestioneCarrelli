@@ -1,4 +1,4 @@
-package com.vaadin.tutorial.crm;
+package it.arsinfo.gc;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
@@ -9,6 +9,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
+import it.arsinfo.gc.GreetService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

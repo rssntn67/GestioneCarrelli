@@ -1,4 +1,4 @@
-package com.vaadin.tutorial.crm;
+package it.arsinfo.gc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
