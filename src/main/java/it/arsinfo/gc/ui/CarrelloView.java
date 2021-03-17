@@ -1,14 +1,15 @@
 package it.arsinfo.gc.ui;
 
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import it.arsinfo.gc.entity.model.Carrello;
-import it.arsinfo.gc.ui.service.CarrelloServiceImpl;
 import it.arsinfo.gc.ui.service.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,46 +29,47 @@ import org.springframework.beans.factory.annotation.Autowired;
 @CssImport("./styles/shared-styles.css")
 public class CarrelloView extends VerticalLayout {
 
+    private TextField filterText = new TextField();
     private Grid<Carrello> grid = new Grid<Carrello>(Carrello.class);
     private EntityService<Carrello> service;
-    private TextField filterText = new TextField();
     private CarrelloForm form;
 
     public CarrelloView(@Autowired EntityService<Carrello> service) {
         this.service=service;
         addClassName("list-view");
         setSizeFull();
-        configureFilter();
+        getToolBar();
         configureGrid();
 
         form = new CarrelloForm();
-        form.addListener(CarrelloForm.SaveEvent.class, this::saveContact);
-        form.addListener(CarrelloForm.DeleteEvent.class, this::deleteContact);
+        form.addListener(CarrelloForm.SaveEvent.class, this::save);
+        form.addListener(CarrelloForm.DeleteEvent.class, this::delete);
         form.addListener(CarrelloForm.CloseEvent.class, e -> closeEditor());
+
         Div content = new Div(grid,form);
         content.addClassName("content");
         content.setSizeFull();
 
-        add(filterText,content);
+        add(getToolBar(),content);
         updateList();
         closeEditor();
 
 
     }
 
-    private void saveContact(CarrelloForm.SaveEvent event) {
+    private void save(CarrelloForm.SaveEvent event) {
         service.save(event.getCarrello());
         updateList();
         closeEditor();
     }
 
-    private void deleteContact(CarrelloForm.DeleteEvent event) {
+    private void delete(CarrelloForm.DeleteEvent event) {
         service.delete(event.getCarrello());
         updateList();
         closeEditor();
     }
 
-    public void editContact(Carrello carrello) {
+    public void edit(Carrello carrello) {
         if (carrello == null) {
             closeEditor();
         } else {
@@ -83,11 +85,19 @@ public class CarrelloView extends VerticalLayout {
         removeClassName("editing");
     }
 
-    private void configureFilter() {
+    private HorizontalLayout getToolBar() {
         filterText.setPlaceholder("Filter by...");
         filterText.setClearButtonVisible(true);
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addValueChangeListener(e -> updateList());
+
+        Button addButton = new Button("Add");
+        addButton.addClickListener(click -> add());
+
+        HorizontalLayout toolbar = new HorizontalLayout(filterText, addButton);
+        toolbar.addClassName("toolbar");
+        return toolbar;
+
     }
 
     private void configureGrid() {
@@ -95,10 +105,15 @@ public class CarrelloView extends VerticalLayout {
         grid.setColumns("scanCode");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
         grid.asSingleSelect().addValueChangeListener(event ->
-                editContact(event.getValue()));
+                edit(event.getValue()));
     }
 
     private void updateList() {
         grid.setItems(service.findAll(filterText.getValue()));
+    }
+
+    void add() {
+        grid.asSingleSelect().clear();
+        edit(new Carrello());
     }
 }
