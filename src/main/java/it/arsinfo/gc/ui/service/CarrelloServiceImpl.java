@@ -21,7 +21,7 @@ public class CarrelloServiceImpl implements EntityService<Carrello>{
 
 
     @Override
-    public Carrello save(Carrello entity) throws Exception {
+    public Carrello save(Carrello entity) {
         if (entity == null) {
             log.error("save: null entity cannot be saved");
             return null;
@@ -30,7 +30,7 @@ public class CarrelloServiceImpl implements EntityService<Carrello>{
     }
 
     @Override
-    public void delete(Carrello entity) throws Exception {
+    public void delete(Carrello entity) {
         carrelloDao.delete(entity);
     }
 
@@ -42,6 +42,14 @@ public class CarrelloServiceImpl implements EntityService<Carrello>{
     @Override
     public List<Carrello> findAll() {
         return carrelloDao.findAll();
+    }
+
+    @Override
+    public List<Carrello> findAll(String stringFilter) {
+        if (stringFilter == null || stringFilter.isEmpty()) {
+            return findAll();
+        }
+        return carrelloDao.findByScanCodeContainingIgnoreCase(stringFilter);
     }
 
     @Override

@@ -2,6 +2,8 @@ package it.arsinfo.gc;
 
 import it.arsinfo.gc.entity.dao.CarrelloDao;
 import it.arsinfo.gc.entity.model.Carrello;
+import it.arsinfo.gc.ui.service.CarrelloServiceImpl;
+import it.arsinfo.gc.ui.service.EntityService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +21,8 @@ public class EntityTest {
     @Autowired
     private CarrelloDao carrelloDao;
 
+    @Autowired
+    private EntityService<Carrello> service;
 
     @Before
     public void setUp() {
@@ -28,6 +32,11 @@ public class EntityTest {
     public void clearDown() {
     }
 
+    @Test
+    public void testCarrelloService() throws Exception {
+        assertNotNull(service);
+        assertEquals(true, service instanceof CarrelloServiceImpl);
+    }
     @Test
     public void testCarrelloCrud() throws Exception {
         assertEquals(4, carrelloDao.count());
