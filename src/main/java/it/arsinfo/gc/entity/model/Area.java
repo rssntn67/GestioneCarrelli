@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(uniqueConstraints={
         @UniqueConstraint(columnNames = {"areaCode"})
 })
-public class Area extends AbstractEntity {
+public class Area extends EntityBase {
     public enum AreaType {
         Parking,
         Departures,
@@ -29,6 +29,10 @@ public class Area extends AbstractEntity {
 
     public void setAreaCode(String areaCode) {
         this.areaCode = areaCode;
+    }
+
+    public Area() {
+        super();
     }
 
     public String getDescription() { return description; }

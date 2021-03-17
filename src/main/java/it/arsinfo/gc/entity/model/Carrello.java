@@ -10,10 +10,17 @@ import javax.persistence.UniqueConstraint;
 @Table(uniqueConstraints={
         @UniqueConstraint(columnNames = {"scanCode"})
 })
-public class Carrello extends  AbstractEntity {
+public class Carrello extends EntityBase {
+    public Carrello() {
+        super();
+    }
 
     @Column(nullable = false)
     private String scanCode;
+
+    public Carrello(String scanCode) {
+        this.scanCode = scanCode;
+    }
 
     public String getScanCode() {
         return scanCode;

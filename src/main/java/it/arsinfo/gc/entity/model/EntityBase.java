@@ -6,10 +6,13 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class AbstractEntity {
+public abstract class EntityBase {
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE)
     private Long id;
+
+    public EntityBase() {
+    }
 
     public Long getId() {
         return id;
@@ -38,7 +41,7 @@ public abstract class AbstractEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        AbstractEntity other = (AbstractEntity) obj;
+        EntityBase other = (EntityBase) obj;
         if (getId() == null || other.getId() == null) {
             return false;
         }

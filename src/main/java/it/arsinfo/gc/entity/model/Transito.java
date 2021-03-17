@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-public class Transito extends AbstractEntity {
+public class Transito extends EntityBase {
     @ManyToOne(fetch=FetchType.LAZY)
     @NotNull
     private Carrello carrello;
@@ -24,6 +24,10 @@ public class Transito extends AbstractEntity {
 
     public void setPortale(Portale portale) {
         this.portale = portale;
+    }
+
+    public Transito() {
+        super();
     }
 
     public Carrello getCarrello() {

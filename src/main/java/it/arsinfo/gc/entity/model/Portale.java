@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 @Table(uniqueConstraints={
         @UniqueConstraint(columnNames = {"portalCode"})
 })
-public class Portale extends AbstractEntity {
+public class Portale extends EntityBase {
 
     @Column(nullable = false)
     private String portalCode;
@@ -23,6 +23,10 @@ public class Portale extends AbstractEntity {
 
     @Column(nullable = true)
     private Double longitude;
+
+    public Portale() {
+        super();
+    }
 
     public Double getLatitude() {
         return latitude;
