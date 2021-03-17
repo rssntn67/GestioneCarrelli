@@ -11,4 +11,5 @@ public interface EntityService <S extends EntityBase> {
     List<S> findAll();
     List<S> findAll(String filterText);
     long count();
+    S add();
 }

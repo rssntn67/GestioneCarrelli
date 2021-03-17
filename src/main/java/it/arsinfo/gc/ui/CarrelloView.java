@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * A new instance of this class is created for every new user and every
  * browser tab/window.
  */
-@Route("carrelli")
+@Route("")
 @CssImport("./styles/shared-styles.css")
 public class CarrelloView extends VerticalLayout {
 
@@ -114,6 +114,6 @@ public class CarrelloView extends VerticalLayout {
 
     void add() {
         grid.asSingleSelect().clear();
-        edit(new Carrello());
+        edit(service.add());
     }
 }

@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 
 @Service
 public class CarrelloServiceImpl implements EntityService<Carrello>{
+
     @Autowired
     private CarrelloDao carrelloDao;
 
@@ -55,6 +56,11 @@ public class CarrelloServiceImpl implements EntityService<Carrello>{
     @Override
     public long count() {
         return carrelloDao.count();
+    }
+
+    @Override
+    public Carrello add() {
+        return new Carrello();
     }
 
     @PostConstruct
