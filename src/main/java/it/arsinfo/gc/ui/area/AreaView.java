@@ -10,8 +10,6 @@ import it.arsinfo.gc.entity.model.Area;
 import it.arsinfo.gc.ui.MainLayout;
 import it.arsinfo.gc.ui.entity.EntityView;
 import it.arsinfo.gc.ui.service.EntityService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -22,17 +20,11 @@ public class AreaView extends EntityView<Area> {
     private final EntityService<Area> service;
     private final TextField filterText = new TextField();
 
-    private static final Logger log = LoggerFactory.getLogger(AreaForm.class);
-
     public AreaView(@Autowired EntityService<Area> service) {
         super(service, new Grid<>(Area.class), new AreaForm(new BeanValidationBinder<>(Area.class)));
         this.service=service;
         configureGrid("areaCode","areaType","description");
-        getForm().addListener(AreaForm.SaveEvent.class, e -> {
-            log.info("saving: {}", e.getArea() );
-            save(e.getArea());
-            log.info("saved: {}", e.getArea() );
-        });
+        getForm().addListener(AreaForm.SaveEvent.class, e -> save(e.getArea()));
         getForm().addListener(AreaForm.DeleteEvent.class, e -> delete(e.getArea()));
         getForm().addListener(AreaForm.CloseEvent.class, e -> closeEditor());
 

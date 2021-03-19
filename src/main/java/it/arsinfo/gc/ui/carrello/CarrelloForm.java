@@ -2,62 +2,35 @@ package it.arsinfo.gc.ui.carrello;
 
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
 import it.arsinfo.gc.entity.model.Carrello;
+import it.arsinfo.gc.ui.entity.EntityForm;
+import org.springframework.util.StringUtils;
 
-public class CarrelloForm extends FormLayout {
-    Binder<Carrello> binder = new BeanValidationBinder<>(Carrello.class);
+public class CarrelloForm extends EntityForm<Carrello> {
     TextField scanCode = new TextField("Scan Code");
 
-    private Carrello carrello;
-    Button save = new Button("Save");
-    Button delete = new Button("Delete");
-    Button close = new Button("Cancel");
-
-    public CarrelloForm() {
-        addClassName("carrello-form");
-        binder.bindInstanceFields(this);
+    public CarrelloForm(Binder<Carrello> binder) {
+        super(binder);
+        binder.forField(scanCode)
+                .asRequired()
+                .withValidator( code -> !StringUtils.containsWhitespace(code),"Non può contenere spazi")
+                .withValidationStatusHandler(status -> scanCode.setPlaceholder(status
+                        .getMessage().orElse("")))
+                .bind(Carrello::getScanCode,Carrello::setScanCode);
         add(scanCode,createButtonsLayout());
 
-    }
+        getSave().addClickListener(event -> {
+            if (validate()) {
+                fireEvent(new CarrelloForm.SaveEvent(this,getEntity()));
+            }
 
-    private HorizontalLayout createButtonsLayout() {
-        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        close.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        });
+        getDelete().addClickListener(event -> fireEvent(new CarrelloForm.DeleteEvent(this, getEntity())));
+        getClose().addClickListener(event -> fireEvent(new CarrelloForm.CloseEvent(this)));
 
-        save.addClickShortcut(Key.ENTER);
-        close.addClickShortcut(Key.ESCAPE);
-
-        save.addClickListener(event -> validateAndSave());
-        delete.addClickListener(event -> fireEvent(new DeleteEvent(this, carrello)));
-        close.addClickListener(event -> fireEvent(new CloseEvent(this)));
-
-
-        binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
-        return new HorizontalLayout(save, delete, close);
-    }
-
-    private void validateAndSave() {
-        try {
-            binder.writeBean(carrello);
-            fireEvent(new SaveEvent(this, carrello));
-        } catch (ValidationException e) {
-            e.printStackTrace();
-        }
-    }
-    public void setCarrello(Carrello carrello) {
-        this.carrello = carrello;
-            binder.readBean(carrello);
     }
 
     // Events

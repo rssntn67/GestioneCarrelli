@@ -22,18 +22,14 @@ public class AreaForm extends EntityForm<Area> {
         binder.forField(areaCode)
                 .asRequired()
                 .withValidator( code -> !StringUtils.containsWhitespace(code),"Non può contenere spazi")
-                .withValidationStatusHandler(status -> {
-                    areaCode.setPlaceholder(status
-                            .getMessage().orElse(""));
-                })
+                .withValidationStatusHandler(status -> areaCode.setPlaceholder(status
+                        .getMessage().orElse("")))
                 .bind(Area::getAreaCode,Area::setAreaCode);
         binder.forField(areaType)
                 .asRequired()
                 .withValidator(Objects::nonNull,"AreaType deve essere scelto")
-                .withValidationStatusHandler(status -> {
-                    areaType.setPlaceholder(status
-                            .getMessage().orElse(""));
-                })
+                .withValidationStatusHandler(status -> areaType.setPlaceholder(status
+                        .getMessage().orElse("")))
                 .bind(Area::getAreaType,Area::setAreaType);
         binder.forField(description).bind(Area::getDescription,Area::setDescription);
         add(areaCode,areaType,description,createButtonsLayout());

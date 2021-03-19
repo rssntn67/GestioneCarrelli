@@ -1,19 +1,18 @@
 package it.arsinfo.gc.ui.carrello;
 
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import it.arsinfo.gc.entity.model.Carrello;
 import it.arsinfo.gc.ui.MainLayout;
+import it.arsinfo.gc.ui.entity.EntityView;
 import it.arsinfo.gc.ui.service.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 /**
  * A sample Vaadin view class.
@@ -30,93 +29,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Route(value="carrelli", layout = MainLayout.class)
 @PageTitle("Carrelli | GA")
-public class CarrelloView extends VerticalLayout {
+public class CarrelloView extends EntityView<Carrello> {
 
-    private TextField filterText = new TextField();
-    private Grid<Carrello> grid = new Grid<Carrello>(Carrello.class);
-    private EntityService<Carrello> service;
-    private CarrelloForm form;
+    private final TextField filterText = new TextField();
+    private final EntityService<Carrello> service;
 
     public CarrelloView(@Autowired EntityService<Carrello> service) {
+        super(service, new Grid<>(Carrello.class), new CarrelloForm(new BeanValidationBinder<>(Carrello.class)));
         this.service=service;
-        addClassName("list-view");
-        setSizeFull();
-        getToolBar();
-        configureGrid();
+        configureGrid("scanCode");
 
-        form = new CarrelloForm();
-        form.addListener(CarrelloForm.SaveEvent.class, this::save);
-        form.addListener(CarrelloForm.DeleteEvent.class, this::delete);
-        form.addListener(CarrelloForm.CloseEvent.class, e -> closeEditor());
+        getForm().addListener(CarrelloForm.SaveEvent.class, e -> save(e.getCarrello()));
+        getForm().addListener(CarrelloForm.DeleteEvent.class, e -> delete(e.getCarrello()));
+        getForm().addListener(CarrelloForm.CloseEvent.class, e -> closeEditor());
 
-        Div content = new Div(grid,form);
-        content.addClassName("content");
-        content.setSizeFull();
-
-        add(getToolBar(),content);
-        updateList();
-        closeEditor();
-
-
-    }
-
-    private void save(CarrelloForm.SaveEvent event) {
-        service.save(event.getCarrello());
-        updateList();
-        closeEditor();
-    }
-
-    private void delete(CarrelloForm.DeleteEvent event) {
-        service.delete(event.getCarrello());
-        updateList();
-        closeEditor();
-    }
-
-    public void edit(Carrello carrello) {
-        if (carrello == null) {
-            closeEditor();
-        } else {
-            form.setCarrello(carrello);
-            form.setVisible(true);
-            addClassName("editing");
-        }
-    }
-
-    private void closeEditor() {
-        form.setCarrello(null);
-        form.setVisible(false);
-        removeClassName("editing");
-    }
-
-    private HorizontalLayout getToolBar() {
         filterText.setPlaceholder("Filter by...");
         filterText.setClearButtonVisible(true);
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addValueChangeListener(e -> updateList());
 
-        Button addButton = new Button("Add");
-        addButton.addClickListener(click -> add());
+        add(getToolBar(filterText,getAddButton()),getContent());
+        updateList();
+        closeEditor();
 
-        HorizontalLayout toolbar = new HorizontalLayout(filterText, addButton);
-        toolbar.addClassName("toolbar");
-        return toolbar;
 
     }
 
-    private void configureGrid() {
-        grid.addClassName("contact-grid");
-        grid.setColumns("scanCode");
-        grid.getColumns().forEach(col -> col.setAutoWidth(true));
-        grid.asSingleSelect().addValueChangeListener(event ->
-                edit(event.getValue()));
-    }
 
-    private void updateList() {
-        grid.setItems(service.findAll(filterText.getValue()));
-    }
-
-    void add() {
-        grid.asSingleSelect().clear();
-        edit(service.add());
+    @Override
+    public List<Carrello> filter() {
+        return service.findAll(filterText.getValue());
     }
 }
