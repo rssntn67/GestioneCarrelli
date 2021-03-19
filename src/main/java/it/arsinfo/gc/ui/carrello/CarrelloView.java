@@ -1,4 +1,4 @@
-package it.arsinfo.gc.ui;
+package it.arsinfo.gc.ui.carrello;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -8,8 +8,10 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import it.arsinfo.gc.entity.model.Carrello;
+import it.arsinfo.gc.ui.MainLayout;
 import it.arsinfo.gc.ui.service.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,8 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  * A new instance of this class is created for every new user and every
  * browser tab/window.
  */
-@Route("")
-@CssImport("./styles/shared-styles.css")
+
+@Route(value="carrelli", layout = MainLayout.class)
+@PageTitle("Carrelli | GA")
 public class CarrelloView extends VerticalLayout {
 
     private TextField filterText = new TextField();

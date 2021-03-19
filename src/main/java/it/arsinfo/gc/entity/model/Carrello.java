@@ -11,6 +11,13 @@ import javax.persistence.UniqueConstraint;
         @UniqueConstraint(columnNames = {"scanCode"})
 })
 public class Carrello extends EntityBase {
+    @Override
+    public String toString() {
+        return "Carrello{" +
+                "scanCode='" + scanCode + '\'' +
+                '}';
+    }
+
     public Carrello() {
         super();
     }

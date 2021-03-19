@@ -1,4 +1,4 @@
-package it.arsinfo.gc.ui;
+package it.arsinfo.gc.ui.carrello;
 
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -62,7 +62,7 @@ public class CarrelloForm extends FormLayout {
 
     // Events
     public static abstract class CarrelloFormEvent extends ComponentEvent<CarrelloForm> {
-        private Carrello carrello;
+        private final Carrello carrello;
 
         protected CarrelloFormEvent(CarrelloForm source, Carrello carrello) {
             super(source, false);
@@ -97,7 +97,5 @@ public class CarrelloForm extends FormLayout {
                                                                   ComponentEventListener<T> listener) {
         return getEventBus().addListener(eventType, listener);
     }
-
-
 
 }

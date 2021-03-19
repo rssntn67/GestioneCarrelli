@@ -21,6 +21,7 @@ public class Area extends EntityBase {
     private String description;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private AreaType areaType;
 
     public String getAreaCode() {
@@ -33,6 +34,19 @@ public class Area extends EntityBase {
 
     public Area() {
         super();
+    }
+
+    @Override
+    public String toString() {
+        return "Area{" +
+                "areaCode='" + areaCode + '\'' +
+                ", description='" + description + '\'' +
+                ", areaType=" + areaType +
+                '}';
+    }
+
+    public Area(String areaCode) {
+        this.areaCode=areaCode;
     }
 
     public String getDescription() { return description; }

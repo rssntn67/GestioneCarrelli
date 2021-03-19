@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class CarrelloServiceImpl implements EntityService<Carrello>{
@@ -18,7 +18,7 @@ public class CarrelloServiceImpl implements EntityService<Carrello>{
     @Autowired
     private CarrelloDao carrelloDao;
 
-    private static final Logger log = LoggerFactory.getLogger(CarrelloDao.class);
+    private static final Logger log = LoggerFactory.getLogger(CarrelloServiceImpl.class);
 
 
     @Override
@@ -37,7 +37,8 @@ public class CarrelloServiceImpl implements EntityService<Carrello>{
 
     @Override
     public Carrello findById(Long id) {
-        return carrelloDao.findById(id).get();
+        return carrelloDao.findById(id).orElse(null);
+
     }
 
     @Override
@@ -65,10 +66,13 @@ public class CarrelloServiceImpl implements EntityService<Carrello>{
 
     @PostConstruct
     public void populateCarrelli() {
+        List<Carrello> list = new ArrayList<>();
+        for (String scanCode : Arrays.asList("ca00001", "ca00002", "ca00003", "ca00004")) {
+            Carrello carrello = new Carrello(scanCode);
+            list.add(carrello);
+        }
         carrelloDao
                 .saveAll(
-                        Stream.of("ca00001","ca00002","ca00003","ca00004")
-                                .map(scanCode ->  new Carrello(scanCode))
-                                .collect(Collectors.toList()));
+                        list);
     }
 }
