@@ -9,7 +9,7 @@ import com.vaadin.flow.router.Route;
 import it.arsinfo.gc.entity.model.Carrello;
 import it.arsinfo.gc.ui.MainLayout;
 import it.arsinfo.gc.ui.entity.EntityView;
-import it.arsinfo.gc.ui.service.EntityService;
+import it.arsinfo.gc.ui.service.CarrelloService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -32,9 +32,9 @@ import java.util.List;
 public class CarrelloView extends EntityView<Carrello> {
 
     private final TextField filterText = new TextField();
-    private final EntityService<Carrello> service;
+    private final CarrelloService service;
 
-    public CarrelloView(@Autowired EntityService<Carrello> service) {
+    public CarrelloView(@Autowired CarrelloService service) {
         super(service, new Grid<>(Carrello.class), new CarrelloForm(new BeanValidationBinder<>(Carrello.class)));
         this.service=service;
         configureGrid("scanCode");

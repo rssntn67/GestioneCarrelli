@@ -1,5 +1,7 @@
 package it.arsinfo.gc.entity.model;
 
+import org.springframework.data.annotation.Transient;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -23,6 +25,10 @@ public class Portale extends EntityBase {
 
     @Column(nullable = true)
     private Double longitude=0.0;
+
+    public Portale(String portalCode) {
+        this.portalCode = portalCode;
+    }
 
     @Override
     public String toString() {
@@ -70,5 +76,10 @@ public class Portale extends EntityBase {
     public Area getArea() { return area; }
 
     public void setArea(Area area) { this.area = area; }
+
+    @Transient
+    public String getCode() {
+        return portalCode+":"+area.getAreaCode();
+    }
 
 }

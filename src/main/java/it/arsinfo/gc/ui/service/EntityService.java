@@ -9,7 +9,6 @@ public interface EntityService <S extends EntityBase> {
     void delete(S entity);
     S findById(Long id);
     List<S> findAll();
-    List<S> findAll(String filterText);
     long count();
     S add();
 }

@@ -7,16 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class CarrelloServiceImpl implements EntityService<Carrello>{
+public class CarrelloServiceImpl implements CarrelloService {
 
     @Autowired
-    private CarrelloDao carrelloDao;
+    private CarrelloDao dao;
 
     private static final Logger log = LoggerFactory.getLogger(CarrelloServiceImpl.class);
 
@@ -27,23 +24,23 @@ public class CarrelloServiceImpl implements EntityService<Carrello>{
             log.error("save: null entity cannot be saved");
             return null;
         }
-        return carrelloDao.save(entity);
+        return dao.save(entity);
     }
 
     @Override
     public void delete(Carrello entity) {
-        carrelloDao.delete(entity);
+        dao.delete(entity);
     }
 
     @Override
     public Carrello findById(Long id) {
-        return carrelloDao.findById(id).orElse(null);
+        return dao.findById(id).orElse(null);
 
     }
 
     @Override
     public List<Carrello> findAll() {
-        return carrelloDao.findAll();
+        return dao.findAll();
     }
 
     @Override
@@ -51,12 +48,12 @@ public class CarrelloServiceImpl implements EntityService<Carrello>{
         if (stringFilter == null || stringFilter.isEmpty()) {
             return findAll();
         }
-        return carrelloDao.findByScanCodeContainingIgnoreCase(stringFilter);
+        return dao.findByScanCodeContainingIgnoreCase(stringFilter);
     }
 
     @Override
     public long count() {
-        return carrelloDao.count();
+        return dao.count();
     }
 
     @Override
@@ -64,15 +61,4 @@ public class CarrelloServiceImpl implements EntityService<Carrello>{
         return new Carrello();
     }
 
-    @PostConstruct
-    public void populateCarrelli() {
-        List<Carrello> list = new ArrayList<>();
-        for (String scanCode : Arrays.asList("ca00001", "ca00002", "ca00003", "ca00004")) {
-            Carrello carrello = new Carrello(scanCode);
-            list.add(carrello);
-        }
-        carrelloDao
-                .saveAll(
-                        list);
-    }
 }

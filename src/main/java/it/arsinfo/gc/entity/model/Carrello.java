@@ -1,6 +1,8 @@
 package it.arsinfo.gc.entity.model;
 
 
+import org.springframework.data.annotation.Transient;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -35,5 +37,10 @@ public class Carrello extends EntityBase {
 
     public void setScanCode(String scanCode) {
         this.scanCode = scanCode;
+    }
+
+    @Transient
+    public String getCode() {
+        return scanCode;
     }
 }

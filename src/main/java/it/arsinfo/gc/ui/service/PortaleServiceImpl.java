@@ -14,7 +14,7 @@ import java.util.List;
 public class PortaleServiceImpl implements PortaleService {
 
     @Autowired
-    private PortaleDao portaleDao;
+    private PortaleDao dao;
 
     private static final Logger log = LoggerFactory.getLogger(PortaleServiceImpl.class);
 
@@ -25,35 +25,34 @@ public class PortaleServiceImpl implements PortaleService {
             log.error("save: null entity cannot be saved");
             return null;
         }
-        return portaleDao.save(entity);
+        return dao.save(entity);
     }
 
     @Override
     public void delete(Portale entity) {
-        portaleDao.delete(entity);
+        dao.delete(entity);
     }
 
     @Override
     public Portale findById(Long id) {
-        return portaleDao.findById(id).orElse(null);
+        return dao.findById(id).orElse(null);
     }
 
     @Override
     public List<Portale> findAll() {
-        return portaleDao.findAll();
+        return dao.findAll();
     }
 
-    @Override
     public List<Portale> findAll(String stringFilter) {
         if (stringFilter == null || stringFilter.isEmpty()) {
             return findAll();
         }
-        return portaleDao.findByPortalCodeContainingIgnoreCase(stringFilter);
+        return dao.findByPortalCodeContainingIgnoreCase(stringFilter);
     }
 
     @Override
     public long count() {
-        return portaleDao.count();
+        return dao.count();
     }
 
     @Override
@@ -66,7 +65,7 @@ public class PortaleServiceImpl implements PortaleService {
         if (filterArea == null)
             return findAll(filterText);
         if (filterText == null)
-            return portaleDao.findByArea(filterArea);
-        return portaleDao.findByPortalCodeContainingIgnoreCaseAndArea(filterText,filterArea);
+            return dao.findByArea(filterArea);
+        return dao.findByPortalCodeContainingIgnoreCaseAndArea(filterText,filterArea);
     }
 }

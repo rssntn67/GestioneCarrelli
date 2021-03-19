@@ -9,7 +9,7 @@ import com.vaadin.flow.router.Route;
 import it.arsinfo.gc.entity.model.Area;
 import it.arsinfo.gc.ui.MainLayout;
 import it.arsinfo.gc.ui.entity.EntityView;
-import it.arsinfo.gc.ui.service.EntityService;
+import it.arsinfo.gc.ui.service.AreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -17,10 +17,10 @@ import java.util.List;
 @Route(value="aree", layout = MainLayout.class)
 @PageTitle("Aree | GA")
 public class AreaView extends EntityView<Area> {
-    private final EntityService<Area> service;
+    private final AreaService service;
     private final TextField filterText = new TextField();
 
-    public AreaView(@Autowired EntityService<Area> service) {
+    public AreaView(@Autowired AreaService service) {
         super(service, new Grid<>(Area.class), new AreaForm(new BeanValidationBinder<>(Area.class)));
         this.service=service;
         configureGrid("areaCode","areaType","description");
