@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -17,7 +16,7 @@ import java.util.stream.Stream;
 public class AreaServiceImpl implements EntityService<Area>{
 
     @Autowired
-    private AreaDao AreaDao;
+    private AreaDao areaDao;
 
     private static final Logger log = LoggerFactory.getLogger(AreaServiceImpl.class);
 
@@ -28,22 +27,22 @@ public class AreaServiceImpl implements EntityService<Area>{
             log.error("save: null entity cannot be saved");
             return null;
         }
-        return AreaDao.save(entity);
+        return areaDao.save(entity);
     }
 
     @Override
     public void delete(Area entity) {
-        AreaDao.delete(entity);
+        areaDao.delete(entity);
     }
 
     @Override
     public Area findById(Long id) {
-        return AreaDao.findById(id).orElse(null);
+        return areaDao.findById(id).orElse(null);
     }
 
     @Override
     public List<Area> findAll() {
-        return AreaDao.findAll();
+        return areaDao.findAll();
     }
 
     @Override
@@ -51,12 +50,12 @@ public class AreaServiceImpl implements EntityService<Area>{
         if (stringFilter == null || stringFilter.isEmpty()) {
             return findAll();
         }
-        return AreaDao.findByAreaCodeContainingIgnoreCase(stringFilter);
+        return areaDao.findByAreaCodeContainingIgnoreCase(stringFilter);
     }
 
     @Override
     public long count() {
-        return AreaDao.count();
+        return areaDao.count();
     }
 
     @Override
@@ -66,7 +65,7 @@ public class AreaServiceImpl implements EntityService<Area>{
 
     @PostConstruct
     public void populateArea() {
-        AreaDao
+        areaDao
                 .saveAll(
                         Stream.of(1,2,3,4,5)
                                 .map(scanCode ->  {

@@ -9,4 +9,5 @@ import java.util.List;
 public interface PortaleDao extends JpaRepository<Portale,Long> {
     List<Portale> findByPortalCodeContainingIgnoreCase(String portal);
     List<Portale> findByArea(Area area);
+    List<Portale> findByPortalCodeContainingIgnoreCaseAndArea(String portal,Area area);
 }

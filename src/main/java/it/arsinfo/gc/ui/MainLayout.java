@@ -12,6 +12,7 @@ import com.vaadin.flow.router.RouterLink;
 import it.arsinfo.gc.ui.area.AreaView;
 import it.arsinfo.gc.ui.carrello.CarrelloView;
 import it.arsinfo.gc.ui.home.HomeView;
+import it.arsinfo.gc.ui.portale.PortaleView;
 
 @CssImport("./styles/shared-styles.css")
 public class MainLayout extends AppLayout {
@@ -46,6 +47,9 @@ public class MainLayout extends AppLayout {
         RouterLink areeLink = new RouterLink("Aree", AreaView.class);
         carrelliLink.setHighlightCondition(HighlightConditions.sameLocation());
 
-        addToDrawer(new VerticalLayout(homeLink,carrelliLink,areeLink));
+        RouterLink portaliLink = new RouterLink("Portali", PortaleView.class);
+        portaliLink.setHighlightCondition(HighlightConditions.sameLocation());
+
+        addToDrawer(new VerticalLayout(homeLink,carrelliLink,areeLink,portaliLink));
     }
 }

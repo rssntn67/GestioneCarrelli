@@ -19,10 +19,21 @@ public class Portale extends EntityBase {
     private Area area;
 
     @Column(nullable = true)
-    private Double latitude;
+    private Double latitude=0.0;
 
     @Column(nullable = true)
-    private Double longitude;
+    private Double longitude=0.0;
+
+    @Override
+    public String toString() {
+        return "Portale{" +
+                "portalCode='" + portalCode + '\'' +
+                ", description='" + description + '\'' +
+                ", area=" + area +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
+    }
 
     public Portale() {
         super();
