@@ -4,7 +4,6 @@
    https://vaadin.com/themes/lumo for more information.
 */
 /* Main layout */
-
 a[highlight] {
     font-weight: bold;
     text-decoration: underline;
@@ -38,4 +37,11 @@ a[highlight] {
     .list-view.editing .contact-grid {
         display: none;
    }
+}
+
+/* Dashboard view */
+
+.dashboard-view .contact-stats {
+    font-size: 4em;
+    margin: 1em 0;
 }

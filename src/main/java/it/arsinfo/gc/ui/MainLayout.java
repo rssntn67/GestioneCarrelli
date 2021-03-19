@@ -11,6 +11,7 @@ import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.RouterLink;
 import it.arsinfo.gc.ui.area.AreaView;
 import it.arsinfo.gc.ui.carrello.CarrelloView;
+import it.arsinfo.gc.ui.dashboard.DashboardView;
 import it.arsinfo.gc.ui.home.HomeView;
 import it.arsinfo.gc.ui.portale.PortaleView;
 import it.arsinfo.gc.ui.transito.TransitoView;
@@ -54,12 +55,16 @@ public class MainLayout extends AppLayout {
         RouterLink transitiLink = new RouterLink("Transiti", TransitoView.class);
         transitiLink.setHighlightCondition(HighlightConditions.sameLocation());
 
+        RouterLink dashboardLink = new RouterLink("Dashboard", DashboardView.class);
+        dashboardLink.setHighlightCondition(HighlightConditions.sameLocation());
+
         addToDrawer(
                 new VerticalLayout(
                         homeLink,
                         carrelliLink,
                         areeLink,
                         portaliLink,
-                        transitiLink));
+                        transitiLink,
+                        dashboardLink));
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface AreaDao extends JpaRepository<Area,Long> {
+    Area findByAreaCode(String areaCode);
     List<Area> findByAreaCodeContainingIgnoreCase(String area);
     List<Area> findByAreaType(Area.AreaType type);
     List<Area> findByAreaCodeContainingIgnoreCaseAndAreaType(String area,Area.AreaType type);

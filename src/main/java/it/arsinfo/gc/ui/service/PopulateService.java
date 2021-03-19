@@ -7,13 +7,12 @@ import it.arsinfo.gc.entity.dao.TransitoDao;
 import it.arsinfo.gc.entity.model.Area;
 import it.arsinfo.gc.entity.model.Carrello;
 import it.arsinfo.gc.entity.model.Portale;
+import it.arsinfo.gc.entity.model.Transito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -34,37 +33,35 @@ public class PopulateService {
     @PostConstruct
     public void populate() {
 
-        List<Carrello> list = new ArrayList<>();
-        for (String scanCode : Arrays.asList("ca00001", "ca00002", "ca00003", "ca00004")) {
-            Carrello carrello = new Carrello(scanCode);
-            list.add(carrello);
-        }
         carrelloDao
                 .saveAll(
-                        list);
+                        Stream.of(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)
+                        .map(scanCode -> new Carrello("ca0000"+scanCode))
+                .collect(Collectors.toList())
+                );
 
         areaDao
                 .saveAll(
                         Stream.of(1,2,3,4,5)
-                                .map(scanCode ->  {
-                                    Area area = new Area("area0000"+scanCode);
-                                    if (scanCode == 1) {
+                                .map(areaCode ->  {
+                                    Area area = new Area("area0000"+areaCode);
+                                    if (areaCode == 1) {
                                         area.setAreaType(Area.AreaType.Arrivals);
                                         area.setDescription("Arrivi");
                                     }
-                                    if (scanCode == 2) {
+                                    if (areaCode == 2) {
                                         area.setAreaType(Area.AreaType.Departures);
                                         area.setDescription("Partenze");
                                     }
-                                    if (scanCode == 3) {
+                                    if (areaCode == 3) {
                                         area.setAreaType(Area.AreaType.Parking);
                                         area.setDescription("Parcheggio Sosta Breve");
                                     }
-                                    if (scanCode == 4) {
+                                    if (areaCode == 4) {
                                         area.setAreaType(Area.AreaType.Private);
                                         area.setDescription("Riservata operatori aeroportuali");
                                     }
-                                    if (scanCode == 5) {
+                                    if (areaCode == 5) {
                                         area.setAreaType(Area.AreaType.Terminal);
                                         area.setDescription("terminale A5");
                                     }
@@ -91,7 +88,7 @@ public class PopulateService {
                 portale.setDescription("Portale 1 Area 4");
             }
             if (id == 15) {
-                portale.setArea(areaDao.findByAreaCodeContainingIgnoreCase("1").iterator().next());
+                portale.setArea(areaDao.findByAreaCodeContainingIgnoreCase("5").iterator().next());
                 portale.setDescription("Portale 1 Area 5");
             }
 
@@ -118,6 +115,27 @@ public class PopulateService {
 
             return portale;
         }).collect(Collectors.toList()));
+
+        for (int i=0;i<1000;i++) {
+            Transito t1 = new Transito();
+            t1.setPortale(
+                portaleDao.findByPortalCode("portal000"
+                        +getRandom(
+                                new int[]{11,12,13,14,15,21,22,23,31,41}
+                        )
+                )
+            );
+            t1.setCarrello(carrelloDao.findByScanCode("ca0000"+getRandom(new int[] {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15})));
+            t1.setTime(new Date(System.currentTimeMillis() - i * 5000));
+            transitoDao.save(t1);
+
+        }
+
+    }
+
+    public static int getRandom(int[] array) {
+        int rnd = new Random().nextInt(array.length);
+        return array[rnd];
     }
 
 }
