@@ -22,7 +22,6 @@ public abstract class EntityForm<T extends EntityBase> extends FormLayout {
 
     public EntityForm(Binder<T> binder) {
         this.binder=binder;
-        addClassName("entity-form");
     }
 
     public Binder<T> getBinder() {

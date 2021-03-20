@@ -3,6 +3,7 @@ package it.arsinfo.gc.ui;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -15,6 +16,7 @@ import it.arsinfo.gc.ui.dashboard.DashboardView;
 import it.arsinfo.gc.ui.home.HomeView;
 import it.arsinfo.gc.ui.portale.PortaleView;
 import it.arsinfo.gc.ui.transito.TransitoView;
+import it.arsinfo.gc.ui.user.UserView;
 
 @CssImport("./styles/shared-styles.css")
 public class MainLayout extends AppLayout {
@@ -26,14 +28,14 @@ public class MainLayout extends AppLayout {
     private void createHeader() {
         H1 logo = new H1("Gestione Carrelli");
         logo.addClassName("logo");
+        Anchor logout = new Anchor("logout", "Log out");
 
-        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo);
-
+        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo,logout);
+        header.expand(logo);
         header.setDefaultVerticalComponentAlignment(
                 FlexComponent.Alignment.CENTER);
         header.setWidth("100%");
         header.addClassName("header");
-
 
         addToNavbar(header);
 
@@ -58,6 +60,9 @@ public class MainLayout extends AppLayout {
         RouterLink dashboardLink = new RouterLink("Dashboard", DashboardView.class);
         dashboardLink.setHighlightCondition(HighlightConditions.sameLocation());
 
+        RouterLink userLink = new RouterLink("Users", UserView.class);
+        userLink.setHighlightCondition(HighlightConditions.sameLocation());
+
         addToDrawer(
                 new VerticalLayout(
                         homeLink,
@@ -65,6 +70,7 @@ public class MainLayout extends AppLayout {
                         areeLink,
                         portaliLink,
                         transitiLink,
-                        dashboardLink));
+                        dashboardLink,
+                        userLink));
     }
 }
