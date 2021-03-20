@@ -24,7 +24,7 @@ a[highlight] {
 }
 
 .gc-view .grid {
-    flex: 3;
+    flex: 2;
 }
 
 .gc-view .form {
@@ -41,7 +41,7 @@ a[highlight] {
 
 /* Dashboard view */
 
-.dashboard-view .contact-stats {
-    font-size: 4em;
-    margin: 1em 0;
+.dashboard-view .stats {
+    font-size: 1em;
+    margin: 0.5em 0;
 }

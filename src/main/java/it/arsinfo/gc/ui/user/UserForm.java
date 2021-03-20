@@ -16,7 +16,7 @@ import java.util.Objects;
 
 public class UserForm extends EntityForm<UserInfo> {
 
-    final TextField username = new TextField("Portal Code");
+    final TextField username = new TextField("Username");
     final ComboBox<UserInfo.Role> role = new ComboBox<>("Role", EnumSet.allOf(UserInfo.Role.class));
     final PasswordField password = new PasswordField("Password");
     final PasswordField confirm = new PasswordField("Confirm");

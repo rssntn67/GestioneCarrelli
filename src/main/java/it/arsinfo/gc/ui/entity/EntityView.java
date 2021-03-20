@@ -80,7 +80,7 @@ public abstract class EntityView<T extends EntityBase> extends VerticalLayout {
     }
 
     public void configureGrid(String...columns) {
-        grid.addClassName("contact-grid");
+        grid.addClassName("grid");
         grid.setColumns(columns);
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
         grid.asSingleSelect().addValueChangeListener(event ->

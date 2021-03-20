@@ -22,7 +22,7 @@ import java.util.List;
 public class UserView extends EntityView<UserInfo> {
     private final UserInfoService service;
     private final TextField filterText = new TextField();
-    private final ComboBox<UserInfo.Role> filterRole = new ComboBox<>("Role",EnumSet.allOf(UserInfo.Role.class));
+    private final ComboBox<UserInfo.Role> filterRole = new ComboBox<>();
 
     public UserView(@Autowired UserInfoService service, @Autowired PasswordEncoder passwordEncoder) {
         super(service,
@@ -41,6 +41,7 @@ public class UserView extends EntityView<UserInfo> {
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addValueChangeListener(e -> updateList());
 
+        filterRole.setItems(EnumSet.allOf(UserInfo.Role.class));
         filterRole.setPlaceholder("Select role to search");
         filterRole.addValueChangeListener(e -> updateList());
 

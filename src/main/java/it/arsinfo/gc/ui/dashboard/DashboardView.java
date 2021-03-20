@@ -36,25 +36,25 @@ public class DashboardView extends VerticalLayout {
 
     private Component getCarrelliStats() {
         Span stats = new Span(service.countCarrello() + " carrelli");
-        stats.addClassName("contact-stats");
+        stats.addClassName("stats");
         return stats;
     }
 
     private Component getAreaStats() {
         Span stats = new Span(service.countArea() + " aree");
-        stats.addClassName("contact-stats");
+        stats.addClassName("stats");
         return stats;
     }
 
     private Component getPortaliStats() {
         Span stats = new Span(service.countPortale() + " portali");
-        stats.addClassName("contact-stats");
+        stats.addClassName("stats");
         return stats;
     }
 
     private Component getTransitiStats() {
         Span stats = new Span(service.countTransito() + " transiti");
-        stats.addClassName("contact-stats");
+        stats.addClassName("stats");
         return stats;
     }
 
@@ -70,7 +70,7 @@ public class DashboardView extends VerticalLayout {
     }
 
     private Chart getAreaTransitiNumbersChart() {
-        Chart chart = new Chart(ChartType.COLUMN);
+        Chart chart = new Chart(ChartType.PIE);
 
         DataSeries dataSeries = new DataSeries();
         Map<String, Integer> areeMap = service.getTransitiStats();
