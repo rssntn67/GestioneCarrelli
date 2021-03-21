@@ -1,5 +1,6 @@
 package it.arsinfo.gc.security;
 
+import it.arsinfo.gc.entity.model.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -34,6 +35,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .requestCache().requestCache(new CustomRequestCache())
                 .and().authorizeRequests()
+                .antMatchers("admin/**").hasRole(UserInfo.Role.ADMIN.name())
+                .antMatchers("gc/**").hasRole(UserInfo.Role.USER.name())
                 .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
 
                 .anyRequest().authenticated()

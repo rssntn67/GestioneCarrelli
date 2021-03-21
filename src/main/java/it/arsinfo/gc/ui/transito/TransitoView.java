@@ -17,8 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@Route(value="transiti", layout = MainLayout.class)
-@PageTitle("Transiti | GA")
+@Route(value="gc/transiti", layout = MainLayout.class)
+@PageTitle("Transiti | GC")
 public class TransitoView extends EntityView<Transito> {
     private final TransitoService service;
     private final ComboBox<Portale> filterPortale = new ComboBox<>();

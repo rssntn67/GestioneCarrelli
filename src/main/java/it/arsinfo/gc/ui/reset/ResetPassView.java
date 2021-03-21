@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Route(value="reset", layout = MainLayout.class)
-@PageTitle("Reset Password | GA")
+@PageTitle("Reset Password | GC")
 public class ResetPassView extends EntityView<UserInfo> {
         private final UserInfoService service;
 

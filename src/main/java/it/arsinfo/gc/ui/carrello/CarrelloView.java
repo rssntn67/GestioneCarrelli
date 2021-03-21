@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@Route(value="carrelli", layout = MainLayout.class)
-@PageTitle("Carrelli | GA")
+@Route(value="gc/carrelli", layout = MainLayout.class)
+@PageTitle("Carrelli | GC")
 public class CarrelloView extends EntityView<Carrello> {
 
     private final TextField filterText = new TextField();

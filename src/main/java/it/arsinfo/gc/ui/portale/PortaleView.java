@@ -17,8 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@Route(value="portali", layout = MainLayout.class)
-@PageTitle("Portali | GA")
+@Route(value="gc/portali", layout = MainLayout.class)
+@PageTitle("Portali | GC")
 public class PortaleView extends EntityView<Portale> {
     private final PortaleService service;
     private final TextField filterText = new TextField();

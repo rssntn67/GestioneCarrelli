@@ -19,7 +19,7 @@ public class UserInfo extends EntityBase {
     public enum Role {
         ADMIN,
         USER,
-        LOCKED,
+        DASHBOARD,
     }
 
     @Column(nullable=false)

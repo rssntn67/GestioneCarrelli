@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@Route(value="aree", layout = MainLayout.class)
-@PageTitle("Aree | GA")
+@Route(value="gc/aree", layout = MainLayout.class)
+@PageTitle("Aree | GC")
 public class AreaView extends EntityView<Area> {
     private final AreaService service;
     private final TextField filterText = new TextField();

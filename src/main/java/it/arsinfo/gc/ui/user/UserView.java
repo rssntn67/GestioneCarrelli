@@ -17,8 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.EnumSet;
 import java.util.List;
 
-@Route(value="users", layout = MainLayout.class)
-@PageTitle("Users | GA")
+@Route(value="admin/users", layout = MainLayout.class)
+@PageTitle("Users | GC")
 public class UserView extends EntityView<UserInfo> {
     private final UserInfoService service;
     private final TextField filterText = new TextField();
