@@ -15,4 +15,5 @@ public interface TransitoDao extends JpaRepository<Transito,Long> {
     List<Transito> findByCarrelloAndTimeBetween(Carrello carrello,Date start,Date end);
     List<Transito> findByPortaleAndTimeBetween(Portale area,Date start,Date end);
     List<Transito> findByPortaleAndCarrello(Portale portale, Carrello carrello);
+    List<Transito> findByPortaleAndCarrelloAndTimeBetween(Portale portale, Carrello carrello,Date start,Date end);
 }

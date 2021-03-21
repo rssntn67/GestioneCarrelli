@@ -1,6 +1,7 @@
 package it.arsinfo.gc.ui.transito;
 
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.PageTitle;
@@ -15,6 +16,10 @@ import it.arsinfo.gc.ui.service.PortaleService;
 import it.arsinfo.gc.ui.service.TransitoService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 @Route(value="gc/transiti", layout = MainLayout.class)
@@ -23,6 +28,9 @@ public class TransitoView extends EntityView<Transito> {
     private final TransitoService service;
     private final ComboBox<Portale> filterPortale = new ComboBox<>();
     private final ComboBox<Carrello> filterCarrello = new ComboBox<>();
+    private final DateTimePicker fromDate = new DateTimePicker();
+    private final DateTimePicker toDate = new DateTimePicker();
+
 
     public TransitoView(@Autowired TransitoService service,
                         @Autowired EntityService<Carrello> carrelloService,
@@ -52,7 +60,20 @@ public class TransitoView extends EntityView<Transito> {
         filterCarrello.setPlaceholder("Select Carrello to search");
         filterCarrello.addValueChangeListener(e -> updateList());
 
-        add(getToolBar(filterPortale,filterCarrello,getAddButton()),getContent());
+        LocalDateTime now = LocalDateTime.now();
+        fromDate.setDatePlaceholder("Select From Date");
+        fromDate.setTimePlaceholder("Select From Time");
+        fromDate.setStep(Duration.ofMinutes(30));
+        fromDate.setValue(now.minus(Duration.ofDays(1)));
+        fromDate.addValueChangeListener(e->updateList());
+
+        toDate.setDatePlaceholder("Select To Date");
+        toDate.setTimePlaceholder("Select To Time");
+        toDate.setStep(Duration.ofMinutes(30));
+        toDate.setValue(now);
+        toDate.addValueChangeListener(e->updateList());
+
+        add(getToolBar(fromDate,toDate,filterPortale,filterCarrello,getAddButton()),getContent());
         updateList();
         closeEditor();
 
@@ -60,6 +81,15 @@ public class TransitoView extends EntityView<Transito> {
 
     @Override
     public List<Transito> filter() {
-        return service.findAll(filterCarrello.getValue(),filterPortale.getValue());
+        return service.findAll(filterCarrello.getValue(),filterPortale.getValue(),getFrom(),getTo());
     }
+
+    private Date getFrom() {
+        return Date.from(fromDate.getValue().atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    private Date getTo() {
+        return Date.from(toDate.getValue().atZone(ZoneId.systemDefault()).toInstant());
+    }
+
 }

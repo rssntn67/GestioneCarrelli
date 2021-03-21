@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -66,15 +67,15 @@ public class TransitoServiceImpl implements TransitoService {
     }
 
     @Override
-    public List<Transito> findAll(Carrello carrello, Portale portale) {
+    public List<Transito> findAll(Carrello carrello, Portale portale, Date start, Date end) {
         if (carrello == null && portale == null)
-            return populate(dao.findAll());
+            return populate(dao.findByTimeBetween(start,end));
         if (carrello == null)
-            return populate(dao.findByPortale(portale));
+            return populate(dao.findByPortaleAndTimeBetween(portale,start,end));
         if (portale == null)
-            return populate(dao.findByCarrello(carrello));
+            return populate(dao.findByCarrelloAndTimeBetween(carrello,start,end));
 
-        return populate(dao.findByPortaleAndCarrello(portale,carrello));
+        return populate(dao.findByPortaleAndCarrelloAndTimeBetween(portale,carrello,start,end));
     }
 
     private List<Transito> populate(List<Transito> transiti) {
