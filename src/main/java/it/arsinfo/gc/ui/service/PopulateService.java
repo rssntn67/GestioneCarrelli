@@ -116,21 +116,21 @@ public class PopulateService {
             return portale;
         }).collect(Collectors.toList()));
 
-        for (int i=0;i<300;i++) {
-            Transito t1 = new Transito();
-            t1.setPortale(
-                portaleDao.findByPortalCode("portal000"
-                        +getRandom(
-                                new int[]{11,12,13,14,15,21,22,23,31,41}
+        for (Carrello carrello: carrelloDao.findAll()) {
+            for (int i = 0; i < 30; i++) {
+                Transito transito = new Transito();
+                transito.setPortale(
+                        portaleDao.findByPortalCode("portal000"
+                                        + getRandom(
+                                new int[]{11, 12, 13, 14, 15, 21, 22, 23, 31, 41}
+                                )
                         )
-                )
-            );
-            t1.setCarrello(carrelloDao.findByScanCode("ca0000"+getRandom(new int[] {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15})));
-            t1.setTime(new Date(System.currentTimeMillis() - i * 60000));
-            transitoDao.save(t1);
-
+                );
+                transito.setCarrello(carrello);
+                transito.setTime(new Date(System.currentTimeMillis() - i * 1200000));
+                transitoDao.save(transito);
+            }
         }
-
     }
 
     public static int getRandom(int[] array) {
