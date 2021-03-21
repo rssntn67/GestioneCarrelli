@@ -33,6 +33,7 @@ public class PopulateService {
     @PostConstruct
     public void populate() {
 
+        if (carrelloDao.count() == 0)
         carrelloDao
                 .saveAll(
                         Stream.of(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)
@@ -40,6 +41,7 @@ public class PopulateService {
                 .collect(Collectors.toList())
                 );
 
+        if (areaDao.count() == 0)
         areaDao
                 .saveAll(
                         Stream.of(1,2,3,4,5)
@@ -69,6 +71,7 @@ public class PopulateService {
                                 })
                                 .collect(Collectors.toList()));
 
+        if (portaleDao.count() == 0)
         portaleDao.saveAll(Stream.of(11,12,13,14,15,21,22,23,31,41).map( id -> {
             Portale portale = new Portale("portal000"+id);
             if (id == 11) {
@@ -91,7 +94,6 @@ public class PopulateService {
                 portale.setArea(areaDao.findByAreaCodeContainingIgnoreCase("5").iterator().next());
                 portale.setDescription("Portale 1 Area 5");
             }
-
             if (id == 21) {
                 portale.setArea(areaDao.findByAreaCodeContainingIgnoreCase("1").iterator().next());
                 portale.setDescription("Portale 2 Area 1");
@@ -127,7 +129,7 @@ public class PopulateService {
                         )
                 );
                 transito.setCarrello(carrello);
-                transito.setTime(new Date(System.currentTimeMillis() - i * 1200000));
+                transito.setTime(new Date(System.currentTimeMillis() - i * 900000));
                 transitoDao.save(transito);
             }
         }
