@@ -10,11 +10,13 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.RouterLink;
+import it.arsinfo.gc.security.SecurityUtils;
 import it.arsinfo.gc.ui.area.AreaView;
 import it.arsinfo.gc.ui.carrello.CarrelloView;
 import it.arsinfo.gc.ui.dashboard.DashboardView;
 import it.arsinfo.gc.ui.home.HomeView;
 import it.arsinfo.gc.ui.portale.PortaleView;
+import it.arsinfo.gc.ui.reset.ResetPassView;
 import it.arsinfo.gc.ui.transito.TransitoView;
 import it.arsinfo.gc.ui.user.UserView;
 
@@ -28,13 +30,15 @@ public class MainLayout extends AppLayout {
     private void createHeader() {
         H1 logo = new H1("Gestione Carrelli");
         logo.addClassName("logo");
+        H1 loggedinuser = new H1("Loggedin User: " + SecurityUtils.getUsername());
+        loggedinuser.addClassName("logo");
         Anchor logout = new Anchor("logout", "Log out");
 
-        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo,logout);
-        header.expand(logo);
+        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo,loggedinuser,logout);
+        header.expand(logo,loggedinuser);
         header.setDefaultVerticalComponentAlignment(
                 FlexComponent.Alignment.CENTER);
-        header.setWidth("100%");
+        header.setWidth("70%");
         header.addClassName("header");
 
         addToNavbar(header);
@@ -63,6 +67,9 @@ public class MainLayout extends AppLayout {
         RouterLink userLink = new RouterLink("Users", UserView.class);
         userLink.setHighlightCondition(HighlightConditions.sameLocation());
 
+        RouterLink resetLink = new RouterLink("Reset Pass", ResetPassView.class);
+        resetLink.setHighlightCondition(HighlightConditions.sameLocation());
+
         addToDrawer(
                 new VerticalLayout(
                         homeLink,
@@ -71,6 +78,7 @@ public class MainLayout extends AppLayout {
                         portaliLink,
                         transitiLink,
                         dashboardLink,
+                        resetLink,
                         userLink));
     }
 }
