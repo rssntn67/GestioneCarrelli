@@ -29,9 +29,10 @@ public class DashboardView extends VerticalLayout {
         add(getCarrelliStats(),
                 getAreaStats(),
                 getPortaliStats(),
+                getAreaPortalNumbersChart(),
                 getTransitiStats(),
-                getAreaTransitiNumbersChart(),
-                getAreaPortalNumbersChart());
+                getAreaTransitiNumbersChart()
+        );
     }
 
     private Component getCarrelliStats() {
