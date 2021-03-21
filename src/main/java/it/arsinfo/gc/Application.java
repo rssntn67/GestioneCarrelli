@@ -33,12 +33,27 @@ public class Application extends SpringBootServletInitializer {
             @Autowired UserInfoDao userInfoDao,
             @Autowired PasswordEncoder passwordEncoder) {
         return (args) -> {
+            UserInfo dash = userInfoDao.findByUsername("dash");
+            if (dash == null) {
+                dash = new UserInfo("dash", passwordEncoder.encode("Dash009!!"), UserInfo.Role.DASHBOARD);
+                userInfoDao.save(dash);
+                log.info("creato user dash/Dash009!! ROLE DASHBOARD");
+            }
+
+            UserInfo user = userInfoDao.findByUsername("user");
+            if (user == null) {
+                user = new UserInfo("user", passwordEncoder.encode("User008!!"), UserInfo.Role.USER);
+                userInfoDao.save(user);
+                log.info("creato user user/User008!! ROLE USER");
+            }
+
             UserInfo administrator = userInfoDao.findByUsername("admin");
             if (administrator == null) {
-                administrator = new UserInfo("admin", passwordEncoder.encode("admin007!!"), UserInfo.Role.ADMIN);
+                administrator = new UserInfo("admin", passwordEncoder.encode("Admin007!!"), UserInfo.Role.ADMIN);
                 userInfoDao.save(administrator);
-                log.info("creato user admin/admin007!!");
+                log.info("creato user admin/Admin007!! ROLE ADMIN");
             }
+
         };
     }
 

@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 
 @CssImport("./styles/shared-styles.css")
 public class MainLayout extends AppLayout {
+
     public MainLayout() {
         createHeader();
         createDrawer();
@@ -82,7 +83,7 @@ public class MainLayout extends AppLayout {
         }
 
 
-        if (roles.contains(UserInfo.Role.USER.name())) {
+        if (roles.contains(UserInfo.Role.ADMIN.name())) {
             RouterLink userLink = new RouterLink("Users", UserView.class);
             userLink.setHighlightCondition(HighlightConditions.sameLocation());
             menu.add(userLink);

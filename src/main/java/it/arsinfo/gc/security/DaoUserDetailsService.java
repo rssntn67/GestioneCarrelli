@@ -2,6 +2,7 @@ package it.arsinfo.gc.security;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumSet;
 
 import it.arsinfo.gc.entity.model.UserInfo;
 import it.arsinfo.gc.ui.service.UserInfoService;
@@ -36,6 +37,8 @@ public class DaoUserDetailsService implements org.springframework.security.core.
         log.info("login: {}",user);
 
         if (user.getRole() == UserInfo.Role.ADMIN) {
+            log.info("login: {} granted: {}",user, EnumSet.allOf(UserInfo.Role.class));
+
             GrantedAuthority[] granted =
                     {
                             new SimpleGrantedAuthority(UserInfo.Role.DASHBOARD.name()),
@@ -47,6 +50,7 @@ public class DaoUserDetailsService implements org.springframework.security.core.
                 Arrays.asList(granted));
         }
         if (user.getRole() == UserInfo.Role.USER) {
+            log.info("login: {} granted: {}",user, EnumSet.of(UserInfo.Role.DASHBOARD,UserInfo.Role.USER));
             GrantedAuthority[] granted =
                     {
                             new SimpleGrantedAuthority(UserInfo.Role.DASHBOARD.name()),
@@ -56,6 +60,7 @@ public class DaoUserDetailsService implements org.springframework.security.core.
                     user.getPasswordHash(),
                     Arrays.asList(granted));
         }
+        log.info("login: {} granted: {}",user, user.getRole());
         return new User(user.getUsername(),
                 user.getPasswordHash(),
                 Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name())));

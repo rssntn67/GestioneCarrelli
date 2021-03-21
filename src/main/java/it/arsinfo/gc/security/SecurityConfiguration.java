@@ -35,8 +35,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .requestCache().requestCache(new CustomRequestCache())
                 .and().authorizeRequests()
-                .antMatchers("admin/**").hasRole(UserInfo.Role.ADMIN.name())
-                .antMatchers("gc/**").hasRole(UserInfo.Role.USER.name())
+                .antMatchers("/admin/**").hasRole(UserInfo.Role.ADMIN.name())
+                .antMatchers("/gc/**").hasRole(UserInfo.Role.USER.name())
                 .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
 
                 .anyRequest().authenticated()

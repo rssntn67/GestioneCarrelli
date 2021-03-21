@@ -69,7 +69,7 @@ public class UserForm extends EntityForm<UserInfo> {
         });
 
         username.setReadOnly(username.getValue().equals("admin"));
-        role.setReadOnly(SecurityUtils.getUsername().equals("admin"));
+        role.setReadOnly(username.getValue().equals("admin"));
 
 
     }
